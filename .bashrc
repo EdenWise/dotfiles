@@ -23,20 +23,18 @@ usernm="\[$txtgrn\]\u@\[$txtrst\]"      # username
 hostnm="\[$txtgrn\]\h\[$txtrst\]"       # hostname
 #msystm="\[$txtpur\]$MSYSTEM\[$txtrst\]" # mysysgit variable
 folder="\[$txtblu\]\W\[$txtrst\]"       # directory
-gitvar="\[$txtblu\]`__git_ps1`\[$txtrst\]"
+gitvar="\[$txtpur\]`__git_ps1`\[$txtrst\]"
 prompt="\[$txtblk\]:\[$txtrst\]"        # prompt character
 if [ $EUID = 0 ]; then
   usernm=""
   hostnm="\[$txtred\]\h\[$txtrst\]"
 fi
-#PS1="${usernm}${hostnm} ${msystm} ${folder}${prompt} "
-#PS1="\[\033]0;$MSYSTEM:${PWD//[^[:ascii:]]/?}\007\]\n\[\033[32m\]\u@\h \[\033[34m\]\w\[\034[36m\]`__git_ps1`${prompt} "
-#PS1="\[\033]0;$MSYSTEM:${PWD//[^[:ascii:]]/?}\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n$"
-PS1="\[\033]0;$MSYSTEM:${PWD//[^[:ascii:]]/?}\007\]\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEMX\[\033[34m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]$ "
-#PS1="${usernm}${hostnm} ${folder}${gitvar}${prompt} "
+#PS1="${usernm}${hostnm} ${folder}`__git_ps1`${prompt} "
+#PS1="$txtgrn\u@\h$txtrst $txtblu\W$txtrst$(__git_ps1 " (%s)")$txtrst\$ "
+PS1='\['$txtgrn'\]\u@\h \['$txtblu'\]\W\['$txtpur'\]$(__git_ps1 " (%s)")\[\e[0;37m\]:\['$txtrst'\] '
 
-
-echo -ne '\e]12;#8DD35E\a'              # green cursor
+#echo -ne '\e]12;#8DD35E\a'              # green cursor
+#echo -ne '\e]12;#EEEEEE\a'              # 255 cursor
 
 # Colors
 #eval $(dircolors -b)                        # coloring for ls and grep
@@ -96,9 +94,6 @@ alias v="vim"
 alias vi="vim"
 alias vim="vim -p"
 alias sv="sudo vim -p"
-
-alias ebash="vim ~/.bashrc"
-alias sbash="source ~/.bashrc"
 
 # Command completion
 complete -cf bgcmd
