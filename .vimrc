@@ -1,114 +1,133 @@
-" ~/.vimrc
-" attrib: vimrc_example by Bram Moolenaar
-" attrib: http://briancarper.net/
+" Vim configuration
+" thanks: vimrc_example by Bram Moolenaar
 
-"" Basic settings
-set nocompatible                  " vim defaults (not vi)
-syntax on                         " enable syntax highlighting
-filetype plugin indent on         " filetype detection, w/ plugin, indent supprt
+" add-on manager (plug-ins and colorschemes)
+set nocompatible                          " add-on manager init. req. these off
+filetype off
+set runtimepath+=$HOME/.vim/bundle/Vundle.vim
+call vundle#begin("$HOME/.vim/bundle")
+  Plugin 'VundleVim/Vundle.vim'           " add-on manager
+  Plugin 'nanotech/jellybeans.vim'        " colorscheme
+  Plugin 'noahfrederick/vim-hemisu'       " colorscheme
+  Plugin 'reedes/vim-colors-pencil'       " colorscheme
+  Plugin 'vim-pandoc/vim-pandoc'          " markdown add-on
+  Plugin 'vim-pandoc/vim-pandoc-syntax'   " markdown add-on
+  Plugin 'vim-scripts/AfterColors.vim'    " colorscheme customization
+" Manual $HOME/colors/github.vim
+call vundle#end()
 
-set encoding=utf-8
-set fileencoding=utf-8
+" generic
+set encoding=utf-8                  " character encoding as Unix-standard
+set fileencoding=                   " character encoding to convert to on save
+set nocompatible                    " vim preferences over vi-only
+filetype plugin indent on           " ft. detect., indent., & plugin support
+set wrap                            " lines display wrapped not scroll horiz.
+set history=5000                    " recorded command-history number
+"set number                          " column for line-numbering display
 
-set backspace=indent,eol,start    " backspace erases in insert mode
-set ruler                         " show cursor position in statusbar
-set showcmd                       " show partial command in status line
-set wrap                          " wrap lines automatically (create new line)
-set history=5000                  " keep 5000 lines of command line history
-"set number                        " show line numbers
+" navigation
+set scrolloff=4                     " scrolling boundary lines offset by number
+set showtabline=2                   " tabline display (tabs with document names)
+set nostartofline                   " up/down navigation to closest character
+set novisualbell                    " visual-feedback disable for errors
+set showmatch                       " bracket match notification
 
-"" Backups
-set backup                                     " backup enable
-set undofile                                   " undo enable
-set backupdir=$HOME/.cache/vim/backup/,/tmp/   " backup directory
-set directory=$HOME/.cache/vim/backup/,/tmp/   " backup directory for .swp
-set undodir=$HOME/.cache/vim/backup/,/tmp/     " undosave directory
-set viminfo+=n$HOME/.cache/vim/viminfo         " vim command history info
-set runtimepath=$HOME/.local/share/vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after
+" backup
+set backup                                       " backup enable
+set backupdir=~/.vim/backup/,/tmp                " backup directory
+set backupdir+=$HOME/_vim/backup,c:temp          " backup directory Windows
+set directory=~/.vim/backup/,/tmp                " swap file directory 
+set directory+=$HOME/_vim/backup/,c:/temp        " swap file directory Windows
+set undofile                                     " undos enable
+set undodir=~/.vim/backup/,/tmp                  " undo directory
+set undodir+=$HOME/_vim/backup,c:/temp           " undo directory Windows
 
-"" Tab settings
-set tabstop=2                     " tab character amount
-set expandtab                     " tabs as space
-set shiftwidth=2                  " number of spaces for autoindent
-set softtabstop=2                 " spaced-tabs act as normal tabs (bksp...)
-"set smartindent                   " smart autoindenting on a new line
+" formatting
+set backspace=indent,eol,start      " backspace erasures recogs. in insert mode
+set formatoptions=l lbr             " comment lines add a newline at end of line
+set tabstop=2                       " tab character amount
+set expandtab                       " tabs expand as spaces
+set autoindent                      " auto-indent
+set shiftwidth=2                    " auto-indent number of spaces
+set softtabstop=2                   " spaced-tabs act as normal tabs (bksp...)
+"set smartindent                     " smart auto-indenting on a new line
 
-"" Folding
+" diffing and folding
+set diffopt+=vertical               " diffsplits as vertical
 set foldcolumn=0
-set foldmethod=syntax
-set foldlevelstart=1
+"set foldmethod=syntax
+set foldmethod=manual
+"set foldlevelstart=1
 
-"" Navigation
-set nostartofline                 " navigate closest column character(up/down)
-set showtabline=2                 " tab bar always on
-set scrolloff=2                   " offset scrolling boundaries # of lines
-set vb t_vb=                      " visual bells disable
-"set showmatch                     " bouncy parenthesis
+" search
+set hlsearch                        " searches are highlighted
+set incsearch                       " searches are highlighted while typed
+set ignorecase                      " searches non-case-sensitive
+set smartcase                       " searches override ignorecase w/ specchars.
+set wrapscan                        " searches wrap after end of file
 
-"" Search
-set hlsearch                      " highlight searches
-set incsearch                     " highlight immediately
-set ignorecase                    " non-case-sensitive searches
-set smartcase                     " additional parameters for above
-set wrapscan                      " search will wrap after end of file
+" statusline and wildmenu
+set ruler                           " cursor position display in statusbar
+set showcmd                         " partial-command display in statusbar
+set laststatus=2                    " last-line as status always on
+set wildmenu                        " help-menu tab completion
+set wildignore+=*.o,*~,.lo          " help-menu file suffixes to ignore
+set suffixes+=.in,.a                " help-menu file suffixes prioritize
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.png,.jpg,  
 
-"" Appearance
-if &term == "xterm"               " use 256 color palette if available
-  set t_Co=256
-  "colorscheme wombat256
-  colorscheme jellybeans          " colorscheme
-  autocmd Filetype markdown  setlocal background=dark syn=pandoc
-  autocmd Filetype markdown  colorscheme pencil
-  autocmd Filetype mediawiki setlocal background=dark
-  autocmd Filetype mediawiki colorscheme pencil
-else
-  colorscheme default
-  autocmd Filetype markdown  setlocal background=dark syn=pandoc
-  autocmd Filetype markdown  colorscheme default
-endif
-set cursorline                    " highlight current line (disable underline)
+" key maps
+map <F1> <Esc>                                " F1—as [Esc.] key, for help ":h"
+imap <F1> <Esc>
+set pastetoggle=<F2>                          " F2—paste mode, auto-ind. disable
+map <F3> :setlocal spell! spelllang=en_us<CR> " F3—spelling checker toggle
+nmap <F4> :set invnumber<CR>            " F4-numbered lines toggle
+nmap <F5> :set invautoindent<CR>              " F5—autoindent toggle
+map <CR> o<Esc>                               " Enter—newline add below current
+noremap <silent> <Space> :silent noh<Bar>echo<CR> " Space—search un-highlight
 
-"" Filetype specific
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown " .md as markdown
+" filetype-specific
 autocmd Filetype gitcommit setlocal spell textwidth=72 formatoptions+=t
-autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+"autocmd Filetype markdown  setlocal syn=pandoc
+let g:pandoc#folding#mode = ['manual']
+let g:pandoc#folding#fdc = 0
 
-"" Others
-set wildmenu                      " helpmenu tab completion
-set wildignore+=*.o,*~,.lo        " ignore suffixes
-set suffixes+=.in,.a              " lower priority of these suffixes
-set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.png,.jpg,
-
-:set formatoptions=l              " break comment lines...
-:set lbr                          " but not at middle of words
-
-augroup resCur
-  autocmd!
-  autocmd BufReadPost * call setpos(".", getpos("'\""))
-augroup END                       " restore cursor position on open
-
-set noeol                         " attempt to stop prepending a newline at eof
+" others
+set mouse=a                       " mouse nav: (n)orm (c)ommand (i)nsert (a)ll
+set clipboard=unnamed             " system clipboard under windows hack — ggyG
+autocmd BufReadPost *							" restore cursor position on file open
+  \ if line("'\"") >= 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+if !exists(":DiffOrig")						" differentiate original file command
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+  	\ | wincmd p | diffthis
+endif
+set noeol                         " newline-appending-automation at EOF stop
 au BufNewFile * set noeol
 
-" set listchars=tab:.\ ,trail:•    " bullet trailing spaces and tabs
-" set list
-"autocmd bufwritepre * :%s/\s\+$//e " remove trailing whitespaces when saving
-"set mouse=                        " mouse navigation (tabs, cursor...)
-                                  " (n)ormal, (c)ommand, (i)nsert, (a)ll
-                                  " interferes w/ pasting from x clipboard
+" appearance
+syntax on                           " syntax highlighting enable
+if has ('gui_running') || &t_Co == 256
+  colorscheme pencil
+  "colorscheme jellybeans
+else
+  colorscheme default
+endif
+"set cursorline                      " highlight cursor line (disable underline)
+"set cursorcolumn                    " highlight cursor col. (both slow render)
 
-"" Key mappings
-map <F1> <nop>                          " F1 disable. Use :help instead
-set pastetoggle=<F3>                    " F2: paste mode (disables autoindent)
-nn <F5> :setlocal spell! spell?<CR>     " F3: spelling toggle
-vmap <F7> :!xclip -f -sel clip<CR>      " F7: copy selection to xorg clipboard
-map <F8> :-1r !xclip -o -sel p<CR>      " F8: paste xorg clipboard (middleclick)
-map <F9> <Esc>:set mouse=<CR>           " F9: mouse support off
-map <F10> <Esc>:set mouse=ni<CR>        " F10:mouse support on
+" appearance: GUI
+if has('gui_running')
+  set guioptions-=T                 " toolbar hide 
+  set lines=54                      " number of lines 
+  set columns=80                    " number of columns
+  if has('gui_gtk2')
+    set guifont=Inconsolata\ 12
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h14
+  elseif has("gui_win32")
+    set guifont=Consolas:h11:cANSI
+  endif
+endif
 
-map <CR> o<Esc>                         " Enter: newline, remain in command-mode
-:noremap <silent> <Space> :silent noh<Bar>echo<CR> " Space: unhighlight search
-
-noremap <C-J> gj                        " Ctrl + J: Joined line navigate down
-noremap <C-K> gk                        " Ctrl + K: Joined line navigate up
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+" vim:set tabstop=2 shiftwidth=2 expandtab
