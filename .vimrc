@@ -13,7 +13,7 @@ call vundle#begin("$HOME/.vim/bundle")
   Plugin 'vim-pandoc/vim-pandoc'          " markdown add-on
   Plugin 'vim-pandoc/vim-pandoc-syntax'   " markdown add-on
   " Plugin 'vim-scripts/AfterColors.vim'    " colorscheme customization
-  " Manual $HOME/colors/github.vim
+  " Manual "$HOME/colors/github.vim"
 call vundle#end()
 
 " Generic
@@ -87,7 +87,6 @@ noremap <silent> <Space> :silent noh<Bar>echo<CR> " Space—search un-highlight
 
 " Filetype-specific
 autocmd Filetype gitcommit setlocal spell textwidth=72 formatoptions+=t
-"autocmd Filetype markdown  setlocal syn=pandoc
 let g:pandoc#folding#mode = ['manual']
 let g:pandoc#folding#fdc = 0
 
