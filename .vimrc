@@ -12,8 +12,8 @@ call vundle#begin("$HOME/.vim/bundle")
   Plugin 'reedes/vim-colors-pencil'       " colorscheme
   Plugin 'vim-pandoc/vim-pandoc'          " markdown add-on
   Plugin 'vim-pandoc/vim-pandoc-syntax'   " markdown add-on
-  Plugin 'vim-scripts/AfterColors.vim'    " colorscheme customization
-" Manual $HOME/colors/github.vim
+  " Plugin 'vim-scripts/AfterColors.vim'    " colorscheme customization
+  " Manual $HOME/colors/github.vim
 call vundle#end()
 
 " Generic
@@ -107,27 +107,64 @@ au BufNewFile * set noeol
 
 " Appearance
 syntax on                           " syntax highlighting enable
-if has ('gui_running') || &t_Co == 256
-  colorscheme pencil
-  "colorscheme jellybeans
-else
-  colorscheme default
-endif
 "set cursorline                      " highlight cursor line (disable underline)
 "set cursorcolumn                    " highlight cursor col. (both slow render)
 
 " Appearance: GUI
-if has('gui_running')
+if has ('gui_running')
   set guioptions-=T                 " toolbar hide 
   set lines=54                      " number of lines 
   set columns=80                    " number of columns
-  if has('gui_gtk2')
+  if has ('gui_gtk2')
     set guifont=Inconsolata\ 12
-  elseif has("gui_macvim")
+  elseif has ("gui_macvim")
     set guifont=Menlo\ Regular:h14
-  elseif has("gui_win32")
+  elseif has ("gui_win32")
     set guifont=Consolas:h11:cANSI
   endif
+endif
+
+" Appearance: colorscheme
+if has ('gui_running') || &t_Co == 256
+  set background=light
+  if &background == "light"
+    colorscheme pencil
+    set background=light            " override dark as colorscheme forces
+  else
+    colorscheme jellybeans
+  endif
+else
+  colorscheme default
+endif
+
+" Appearance: colorscheme customizations
+if g:colors_name == "github"
+  "highlight Normal       ctermbg=235
+  highlight CursorLine   ctermbg=254
+  highlight CursorColumn ctermbg=254
+endif
+
+if g:colors_name == "jellybeans"
+  highlight Normal     guifg=#dddddd guibg=#272727
+  highlight Comment    gui=none
+  highlight Cursorline ctermbg=234 guibg=#222222
+  highlight Visual     ctermbg=240
+  " Old from blog:
+  " "\   'Normal': { 'ctermbg': '242' },
+  "\   'CursorLine': { 'ctermbg': '238' },
+  "\}
+  "highlight Normal     ctermbg=323232
+  "highlight Normal     ctermbg=303030
+  "highlight CursorLine ctermbg=238
+  "highlight Visual     ctermbg=240
+endif
+
+if g:colors_name == "pencil"
+  highlight CursorColumn ctermbg=255
+  highlight CursorLine   ctermbg=255
+  highlight Normal       ctermbg=none
+  highlight IncSearch    ctermfg=197 ctermbg=none
+  highlight Search       ctermfg=199 ctermbg=none
 endif
 
 " vim:set tabstop=2 shiftwidth=2 expandtab
