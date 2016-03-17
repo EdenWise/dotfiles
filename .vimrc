@@ -166,4 +166,4 @@ if g:colors_name == "pencil"
   highlight Search       ctermfg=199 ctermbg=none
 endif
 
-" vim:set tabstop=2 shiftwidth=2 expandtab
+" vim:set tabstop=2 shiftwidth=2 expandtab:
