@@ -1,7 +1,7 @@
 " Vim configuration
 " thanks: vimrc_example by Bram Moolenaar
 
-" Add-on manager
+" add-on manager
 set nocompatible                          " add-on manager init. req. these off
 filetype off
 set runtimepath+=$HOME/.vim/bundle/Vundle.vim
@@ -16,7 +16,7 @@ call vundle#begin("$HOME/.vim/bundle")
   " Manual "$HOME/colors/github.vim"
 call vundle#end()
 
-" Generic
+" generic
 set encoding=utf-8                  " character encoding as Unix-standard
 set fileencoding=                   " character encoding to convert to on save
 set nocompatible                    " vim preferences over vi-only
@@ -25,14 +25,14 @@ set wrap                            " lines display wrapped not scroll horiz.
 set history=5000                    " recorded command-history number
 "set number                          " column for line-numbering display
 
-" Navigation
+" navigation
 set scrolloff=4                     " scrolling boundary lines offset by number
 set showtabline=2                   " tabline display (tabs with document names)
 set nostartofline                   " up/down navigation to closest character
 set novisualbell                    " visual-feedback disable for errors
 set showmatch                       " bracket match notification
 
-" Backup
+" backup
 set backup                                       " backup enable
 set backupdir=~/.vim/backup/,/tmp                " backup directory
 set backupdir+=$HOME/_vim/backup,c:temp          " backup directory Windows
@@ -42,7 +42,7 @@ set undofile                                     " undos enable
 set undodir=~/.vim/backup/,/tmp                  " undo directory
 set undodir+=$HOME/_vim/backup,c:/temp           " undo directory Windows
 
-" Formatting
+" formatting
 set backspace=indent,eol,start      " backspace erasures recogs. in insert mode
 set formatoptions=l lbr             " comment lines add a newline at end of line
 set tabstop=2                       " tab character amount
@@ -52,21 +52,21 @@ set shiftwidth=2                    " auto-indent number of spaces
 set softtabstop=2                   " spaced-tabs act as normal tabs (bksp...)
 "set smartindent                     " smart auto-indenting on a new line
 
-" Diffing and folding
+" diffing and folding
 set diffopt+=vertical               " diffsplits as vertical
 set foldcolumn=0
 "set foldmethod=syntax
 set foldmethod=manual
 "set foldlevelstart=1
 
-" Search
+" search
 set hlsearch                        " searches are highlighted
 set incsearch                       " searches are highlighted while typed
 set ignorecase                      " searches non-case-sensitive
 set smartcase                       " searches override ignorecase w/ specchars.
 set wrapscan                        " searches wrap after end of file
 
-" Statusline and wildmenu
+" statusline and wildmenu
 set ruler                           " cursor position display in statusbar
 set showcmd                         " partial-command display in statusbar
 set laststatus=2                    " last-line as status always on
@@ -75,22 +75,22 @@ set wildignore+=*.o,*~,.lo          " help-menu file suffixes to ignore
 set suffixes+=.in,.a                " help-menu file suffixes prioritize
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.png,.jpg,  
 
-" Key maps
+" key maps
 map <F1> <Esc>                                " F1—as [Esc.] key, for help ":h"
 imap <F1> <Esc>
 set pastetoggle=<F2>                          " F2—paste mode, auto-ind. disable
 map <F3> :setlocal spell! spelllang=en_us<CR> " F3—spelling checker toggle
-nmap <F4> :set invnumber<CR>            " F4-numbered lines toggle
+nmap <F4> :set invnumber<CR>                  " F4-numbered lines toggle
 nmap <F5> :set invautoindent<CR>              " F5—autoindent toggle
 map <CR> o<Esc>                               " Enter—newline add below current
 noremap <silent> <Space> :silent noh<Bar>echo<CR> " Space—search un-highlight
 
-" Filetype-specific
+" filetype-specific
 autocmd Filetype gitcommit setlocal spell textwidth=72 formatoptions+=t
 let g:pandoc#folding#mode = ['manual']
 let g:pandoc#folding#fdc = 0
 
-" Others
+" others
 set mouse=a                       " mouse nav: (n)orm (c)ommand (i)nsert (a)ll
 set clipboard=unnamed             " system clipboard under windows hack — ggyG
 autocmd BufReadPost *							" restore cursor position on file open
@@ -159,11 +159,14 @@ if g:colors_name == "jellybeans"
 endif
 
 if g:colors_name == "pencil"
+  highlight Comment      ctermfg=245
   highlight CursorColumn ctermbg=255
   highlight CursorLine   ctermbg=255
   highlight Normal       ctermbg=none
   highlight IncSearch    ctermfg=197 ctermbg=none
   highlight Search       ctermfg=199 ctermbg=none
+  highlight TabLine      term=none ctermfg=247
+  highlight TabLineSel   term=none cterm=none gui=none ctermfg=0
 endif
 
-" vim:set tabstop=2 shiftwidth=2 expandtab:
+" vim:set tabstop=2 shiftwidth=2 expandtab
