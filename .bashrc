@@ -70,7 +70,7 @@ else
   export LESS_TERMCAP_ue=$'\e[0m'
 fi
 
-# executable directory paths (msys)
+# msys-git-bash
 #PATH="/e/bin:/usr/local/bin:/usr/bin:/bin:/mingw32/bin:/usr/bin:/e/bin:/c/ProgramData/Oracle/Java/javapath:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/mingw32/bin"
 PATH="~/Development/general-scripts:"$PATH""
 PATH="~/Development/arpa:"$PATH""
@@ -81,6 +81,7 @@ PATH=~/Downloads/KeePass/:"$PATH"
 PATH=~/Downloads/Pickard/:"$PATH"
 PATH=~/Downloads/notepad++/:"$PATH"
 EXECIGNORE=*.dll:*inkscape.com:*.lnk:*.wcx:*.wlx
+alias git="/usr/bin/git.exe"
 
 # executable directory paths
 scrpt_dir=~/.local/bin/                     # local script directory
