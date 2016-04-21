@@ -12,18 +12,18 @@ call vundle#begin("$HOME/.vim/bundle")
   Plugin 'reedes/vim-colors-pencil'       " colorscheme
   Plugin 'vim-pandoc/vim-pandoc'          " markdown add-on
   Plugin 'vim-pandoc/vim-pandoc-syntax'   " markdown add-on
-  " Plugin 'vim-scripts/AfterColors.vim'    " colorscheme customization
   " Manual "$HOME/colors/github.vim"
 call vundle#end()
 
 " generic
 set encoding=utf-8                  " character encoding as Unix-standard
 set fileencoding=                   " character encoding to convert to on save
-set nocompatible                    " vim preferences over vi-only
-filetype plugin indent on           " ft. detect., indent., & plugin support
-set wrap                            " lines display wrapped not scroll horiz.
 set history=5000                    " recorded command-history number
+set nocompatible                    " vim preferences over vi-only
 "set number                          " column for line-numbering display
+set wrap                            " lines display wrapped not scroll horiz.
+"source $VIMRUNTIME/mswin.vim        " standard key maps for MS Windows system
+filetype plugin indent on           " ft. detect., indent., & plugin support
 
 " navigation
 set scrolloff=4                     " scrolling boundary lines offset by number
@@ -65,6 +65,7 @@ set incsearch                       " searches are highlighted while typed
 set ignorecase                      " searches non-case-sensitive
 set smartcase                       " searches override ignorecase w/ specchars.
 set wrapscan                        " searches wrap after end of file
+                                    " :s//replace... will replace last search
 
 " statusline and wildmenu
 set ruler                           " cursor position display in statusbar
@@ -76,14 +77,27 @@ set suffixes+=.in,.a                " help-menu file suffixes prioritize
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.png,.jpg,  
 
 " key maps
-map <F1> <Esc>                                " F1—as [Esc.] key, for help ":h"
+" F1     — Esc. Use :h for help
+" F2     — paste mode toggle for inserting text
+" F3     — spell check toggle
+" F4     — line numbering toggle
+" F5     — auto-indent toggle
+" Enter  — newline add
+" Space  — search un-highlight
+" Ctrl-R — replace, visual-highlighted text put in substiture command
+" Ctrl-S — save file, also in insert mode
+map <F1> <Esc>
 imap <F1> <Esc>
-set pastetoggle=<F2>                          " F2—paste mode, auto-ind. disable
-map <F3> :setlocal spell! spelllang=en_us<CR> " F3—spelling checker toggle
-nmap <F4> :set invnumber<CR>                  " F4-numbered lines toggle
-nmap <F5> :set invautoindent<CR>              " F5—autoindent toggle
-map <CR> o<Esc>                               " Enter—newline add below current
-noremap <silent> <Space> :silent noh<Bar>echo<CR> " Space—search un-highlight
+set pastetoggle=<F2>
+map      <F3> :setlocal spell! spelllang=en_us<CR>
+nmap     <F4> :set invnumber<CR>
+nmap     <F5> :set invautoindent<CR>
+map <CR> o<Esc>
+noremap <silent> <Space> :silent noh<Bar>echo<CR>
+vnoremap <C-r> "hy:%s/<C-r>h/
+noremap <C-S>		:update<CR>
+vnoremap <C-S>		<C-C>:update<CR>
+inoremap <C-S>		<C-O>:update<CR>
 
 " filetype-specific
 autocmd Filetype gitcommit setlocal spell textwidth=72 formatoptions+=t
@@ -104,12 +118,12 @@ endif
 set noeol                         " newline-appending-automation at EOF stop
 au BufNewFile * set noeol
 
-" Appearance
+" appearance
 syntax on                           " syntax highlighting enable
 "set cursorline                      " highlight cursor line (disable underline)
 "set cursorcolumn                    " highlight cursor col. (both slow render)
 
-" Appearance: GUI
+" appearance: GUI
 if has ('gui_running')
   set guioptions-=T                 " toolbar hide 
   set lines=54                      " number of lines 
@@ -123,7 +137,7 @@ if has ('gui_running')
   endif
 endif
 
-" Appearance: colorscheme
+" appearance: colorscheme
 if has ('gui_running') || &t_Co == 256
   set background=light
   if &background == "light"
@@ -136,7 +150,7 @@ else
   colorscheme default
 endif
 
-" Appearance: colorscheme customizations
+" appearance: colorscheme customizations
 if g:colors_name == "github"
   "highlight Normal       ctermbg=235
   highlight CursorLine   ctermbg=254
@@ -159,14 +173,15 @@ if g:colors_name == "jellybeans"
 endif
 
 if g:colors_name == "pencil"
-  highlight Comment      ctermfg=245
-  highlight CursorColumn ctermbg=255
-  highlight CursorLine   ctermbg=255
-  highlight Normal       ctermbg=none
-  highlight IncSearch    ctermfg=197 ctermbg=none
-  highlight Search       ctermfg=199 ctermbg=none
-  highlight TabLine      term=none ctermfg=247
-  highlight TabLineSel   term=none cterm=none gui=none ctermfg=0
+  highlight Comment       ctermfg=245
+  highlight CursorColumn  ctermbg=255
+  highlight CursorLine    ctermbg=255
+  highlight ModeMsg       cterm=italic gui=italic
+  highlight Normal        ctermbg=none
+  highlight IncSearch     ctermfg=197 ctermbg=none
+  highlight Search        ctermfg=199 ctermbg=none
+  highlight TabLine       term=none ctermfg=247
+  highlight TabLineSel    term=none cterm=none gui=none ctermfg=0
 endif
 
 " vim:set tabstop=2 shiftwidth=2 expandtab
