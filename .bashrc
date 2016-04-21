@@ -87,17 +87,17 @@ scrpt_dir=~/.local/bin/                     # local script directory
 PATH="$scrpt_dir:"$PATH""
 
 # Aliases
+alias cda="cd ~/.local/abs/"                         # directory shortcuts
+alias cdb="cd $scrpt_dir"
+alias cdd="cd ~/Desktop/"
+alias cdt="cd ~/.local/share/Trash/files/"
+
 alias ls="ls --color=auto --group-directories-first"
 alias ls1="ls -1"                                    # list by line
 alias lsd="ls -lAtrh"                                # list by date
 alias lsl="ls -lAh"                                  # list by details, humanly
 alias lss="ls -shAxSr"                               # list by size
 alias lsx="ls -lAhX"                                 # list by extension
-
-alias cda="cd ~/.local/abs/"                         # directory shortcuts
-alias cdb="cd $scrpt_dir"
-alias cdd="cd ~/Desktop/"
-alias cdt="cd ~/.local/share/Trash/files/"
 
 alias c="clear"                                      # other
 alias chx="chmod +x"
