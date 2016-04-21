@@ -1,10 +1,11 @@
 # Bash shell configuration
 
 # general
+set   -o noclobber                      # overwrite proctection for redirects
 shopt -s autocd                         # directory chancge  by typing only dir.
 shopt -s cdspell                        # directory spelling correction
 shopt -s globstar                       # recursive matching with **
-set   -o noclobber                      # overwrite proctection for redirects
+stty  -ixon                             # scroll lock key maps disable (legacy)
 #shopt -s checkwinsize                   # window size check after every command
 #shopt -s hostcomplete                   # hostname completion
 #source /etc/profile.d/vte.sh            # new terminals adopt current directory
@@ -69,43 +70,42 @@ else
   export LESS_TERMCAP_ue=$'\e[0m'
 fi
 
-# executable directory paths
-scrpt_dir="$HOME".local/bin                          # local script directory
-PATH="$scrpt_dir:"$PATH""
-
 # executable directory paths (msys)
-PATH="/e/bin:/usr/local/bin:/usr/bin:/bin:/mingw32/bin:/usr/bin:/e/bin:/c/ProgramData/Oracle/Java/javapath:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/mingw32/bin"
+#PATH="/e/bin:/usr/local/bin:/usr/bin:/bin:/mingw32/bin:/usr/bin:/e/bin:/c/ProgramData/Oracle/Java/javapath:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/mingw32/bin"
 PATH="~/Development/general-scripts:"$PATH""
 PATH="~/Development/arpa:"$PATH""
-PATH="/c/Users/Public.SEVIERLIBRARY/AppData/Roaming/GIMP-2.2/bin/:"$PATH""
-alias gimp=gimp-2.2.exe
 PATH="/c/Program Files (x86)/Mozilla Firefox/:"$PATH""
+PATH="/c/Users/Public.SEVIERLIBRARY/AppData/Roaming/Inkscape/:"$PATH""
 PATH=~/Downloads/Imagine/:"$PATH"
 PATH=~/Downloads/KeePass/:"$PATH"
 PATH=~/Downloads/Pickard/:"$PATH"
 PATH=~/Downloads/notepad++/:"$PATH"
 EXECIGNORE=*.dll:*inkscape.com:*.lnk:*.wcx:*.wlx
 
-# Aliases
-alias ls="ls --color=auto --group-directories-first" # Lists
-alias ls1="ls -1"                                    # sort by line
-alias lsd="ls -lAtrh"                                # sort by date
-alias lsl="ls -lAh"                                  # long list, human-readable
-alias lss="ls -shAxSr"                               # sort by size
-alias lsx="ls -lAhX"                                 # sort by extension
+# executable directory paths
+scrpt_dir=~/.local/bin/                     # local script directory
+PATH="$scrpt_dir:"$PATH""
 
-alias cda="cd ~/.local/abs/"                         # Directory shortcuts
+# Aliases
+alias ls="ls --color=auto --group-directories-first"
+alias ls1="ls -1"                                    # list by line
+alias lsd="ls -lAtrh"                                # list by date
+alias lsl="ls -lAh"                                  # list by details, humanly
+alias lss="ls -shAxSr"                               # list by size
+alias lsx="ls -lAhX"                                 # list by extension
+
+alias cda="cd ~/.local/abs/"                         # directory shortcuts
 alias cdb="cd $scrpt_dir"
 alias cdd="cd ~/Desktop/"
 alias cdt="cd ~/.local/share/Trash/files/"
 
-alias c="clear"                                      # Other
+alias c="clear"                                      # other
 alias chx="chmod +x"
 alias cp="cp -ai"                                    # cp interactive if exists
 alias iotop="sudo iotop"
 alias mv="mv -ni"                                    # mv interactive if exists
 alias rm="rm -i"                                     # remove interactively
-alias tarlist="tar -tvf"                             # archive list contents
+alias rsync-backup="rsync -av --info=progress2 --human-readable"
 alias v="vim"
 alias vi="vim"
 alias vim="vim -p"
@@ -127,6 +127,7 @@ done
 
 # Functions
 abacus    () { awk "BEGIN { print $* ; }" ; }
+bat       () { echo "$(<"$@")" ; }
 g         () { nohup gedit "$@" &> /dev/null & }
 mountlist () { mount | awk '{ print $1" "$3" "$5" "$6 }' | sort -uV | \
                  column -t -o " " ; }
@@ -143,12 +144,12 @@ treeview  () { if [ $# -gt 0 ]; then
                tree -C -a "$dir" | less -R ; }
 
 # ssh-agent auto-launch (0 = agent running with key; 1 = w/o key; 2 = not run.)
-agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
+agent_run_state=$(ssh-add -l >| /dev/null 2>&1 ; echo $?)
 if   [ $agent_run_state = 2 ]; then
   eval $(ssh-agent -s)
-  ssh-add
+  ssh-add "$HOME"/.ssh/id_rsa
 elif [ $agent_run_state = 1 ]; then
-  ssh-add
+  ssh-add "$HOME"/.ssh/id_rsa
 fi
 
 # vim:set tabstop=2 shiftwidth=2 expandtab
